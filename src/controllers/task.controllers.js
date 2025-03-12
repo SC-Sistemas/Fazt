@@ -3,7 +3,7 @@ const pool = require("../db");
 //Para tener el archivo mas limpio
 //Vamos a crear un controlador para las tareas
 //El cual hara que el archivo de rutas sea mas limpio
-const getAlltasks = async (req, res) => {
+const getAlltasks = async (req, res, next) => {
   try {
     const allTask = await pool.query("SELECT * FROM task");
     //Es lo que nos retornara la consulta, que al final es lo que vemos
@@ -13,7 +13,7 @@ const getAlltasks = async (req, res) => {
   }
 };
 
-const getTask = async (req, res) => {
+const getTask = async (req, res, next) => {
   try {
     //Extrae el id del url
     const { id } = req.params;
@@ -32,7 +32,7 @@ const getTask = async (req, res) => {
   }
 };
 
-const createTask = async (req, res) => {
+const createTask = async (req, res, next) => {
   //Extrae el title y description del cuerpo de la peticion
   const { title, description } = req.body;
   //EL $1 y $2 son parametros donde iran los valores de title y description que son donde se guardaran
@@ -54,7 +54,7 @@ const createTask = async (req, res) => {
   }
 };
 
-const deleteTask = async (req, res) => {
+const deleteTask = async (req, res, next) => {
   //Extrae el title y description del cuerpo de la peticion
   const { id } = req.params;
   //Hacemos la busqueda y eliminamos con el id que se obtiene de la url
@@ -72,7 +72,7 @@ const deleteTask = async (req, res) => {
   //Si la tarea fue eliminada, nos retorna un status 204
   return res.sendStatus(204);
 };
-const updateTask = async (req, res) => {
+const updateTask = async (req, res, next) => {
   //Extrae el title y description del cuerpo de la peticion
   const { id } = req.params;
   //Ocupamos el body para que nos de que es lo que tenemos que actualizar

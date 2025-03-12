@@ -14,5 +14,12 @@ app.use(express.json());
 //Importamos las rutas
 app.use(taskRoutes);
 
+//
+app.use((err,req,res,next)=>{
+    return res.json({
+        message: err.message
+    })
+})
+
 app.listen(4000) 
 console.log('Server en puerto', 4000);
