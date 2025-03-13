@@ -14,7 +14,7 @@ app.use(express.json());
 //Importamos las rutas
 app.use(taskRoutes);
 
-//
+//Manejador de errores
 app.use((err,req,res,next)=>{
     return res.json({
         message: err.message

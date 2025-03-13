@@ -9,7 +9,7 @@ const getAlltasks = async (req, res, next) => {
     //Es lo que nos retornara la consulta, que al final es lo que vemos
     res.json(allTask.rows);
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 };
 
@@ -28,7 +28,7 @@ const getTask = async (req, res, next) => {
     //Si la tarea existe, se devuelve en formato JSON la primera fila de result.rows.
     res.json(result.rows[0]);
   } catch (error) {
-    console.log(error.message);
+    next(error);
   }
 };
 
@@ -49,7 +49,7 @@ const createTask = async (req, res, next) => {
     //Retornamos la fila recien insertada
     res.json(result.rows[0]);
   } catch (error) {
-    console.log(error.masage);
+    next(error);
     res.json({ error: error.masage });
   }
 };
@@ -57,7 +57,8 @@ const createTask = async (req, res, next) => {
 const deleteTask = async (req, res, next) => {
   //Extrae el title y description del cuerpo de la peticion
   const { id } = req.params;
-  //Hacemos la busqueda y eliminamos con el id que se obtiene de la url
+  try{
+    //Hacemos la busqueda y eliminamos con el id que se obtiene de la url
   //Y retornamos la fila eliminada con RETURNING *
   const result = await pool.query(
     "DELETE FROM task WHERE id = $1 RETURNING *",
@@ -71,9 +72,14 @@ const deleteTask = async (req, res, next) => {
     });
   //Si la tarea fue eliminada, nos retorna un status 204
   return res.sendStatus(204);
+
+  }catch(error){
+    next(error);
+  }
 };
 const updateTask = async (req, res, next) => {
-  //Extrae el title y description del cuerpo de la peticion
+  try {
+    //Extrae el title y description del cuerpo de la peticion
   const { id } = req.params;
   //Ocupamos el body para que nos de que es lo que tenemos que actualizar
   const { title, description } = req.body;
@@ -89,6 +95,9 @@ const updateTask = async (req, res, next) => {
   //Si la tarea fue actualizada, nos retorna un status 204
   console.log(result);
   return res.json(result.rows[0]);
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {
