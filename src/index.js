@@ -3,6 +3,7 @@
 const express = require('express');
 const taskRoutes = require('./routes/tasks.routes');
 const morgan = require('morgan');
+const cors = require('cors');
 
 //Inicializamos express
 const app = express();
@@ -10,6 +11,8 @@ const app = express();
 app.use(morgan('dev'));
 //Configuramos express para que entienda los datos que vienen de un JSON
 app.use(express.json());
+//Cors para que cualquier persona pueda hacer peticiones a nuestro servidor
+app.use(cors());
 
 //Importamos las rutas
 app.use(taskRoutes);
