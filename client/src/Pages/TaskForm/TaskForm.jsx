@@ -24,7 +24,7 @@ export default function TaskForm() {
     });
     const data = await res.json()
 
-    console.log(task)
+    console.log(data);
     
   }
 
